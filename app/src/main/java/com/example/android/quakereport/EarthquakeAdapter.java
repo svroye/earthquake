@@ -21,6 +21,7 @@ import java.util.Date;
 
 public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
 
+    private static final String LOCATION_SEPARATOR = " of ";
 
     public EarthquakeAdapter(@NonNull Context context, @NonNull ArrayList<Earthquake> earthquakes) {
         super(context, 0, earthquakes);
@@ -40,20 +41,32 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // Get the {@link Eartquake} object located at this position in the list
         Earthquake currentEarthquake = getItem(position);
 
-        // Find the TextView in the list_item.xml layout with the ID magnitude_textview
+        // find all Views that need to be populated, i.e. the magnitude, offset, location,
+        // time and date
         TextView magnitudeTextView = (TextView) listItemView.findViewById(R.id.magnitude_textview);
+        TextView offsetTextView = (TextView) listItemView.findViewById(R.id.offset_textview);
+        TextView locationTextView = (TextView) listItemView.findViewById(R.id.location_textview);
+        TextView timeTextView = (TextView) listItemView.findViewById(R.id.time_textview);
+        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
+
         // Get the magnitude from the earthquake and set this text on the TextView
         magnitudeTextView.setText(""+ currentEarthquake.getMagnitude());
 
-        // Find the TextView in the list_item.xml layout with the ID location_textview
-        TextView locationTextView = (TextView) listItemView.findViewById(R.id.location_textview);
-        // Get the lcoation from the earthquake and set it to the textview
-        locationTextView.setText(currentEarthquake.getLocation());
+        String totalLocation = currentEarthquake.getLocation();
+        String offset = "";
+        String location = "";
 
-        // Find the TextViews in the list_item.xml layout with the IDs time_textview
-        // and date_textview
-        TextView timeTextView = (TextView) listItemView.findViewById(R.id.time_textview);
-        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
+        if(totalLocation.contains(LOCATION_SEPARATOR)){
+            String[] parts =  totalLocation.split(LOCATION_SEPARATOR);
+            offset = parts[0] + LOCATION_SEPARATOR;
+            location = parts[1];
+        } else{
+            offset = getContext().getResources().getString(R.string.near_the);
+            location = totalLocation;
+        }
+
+        offsetTextView.setText(offset);
+        locationTextView.setText(location);
 
         // convert the unix timestamp to a Date instance
         long time = currentEarthquake.getTime();
