@@ -64,7 +64,7 @@ public final class QueryUtils {
                 long time = propertiesObject.getLong("time");
 
                 // add a new Earthquake object to the ArrayList
-                earthquakes.add(new Earthquake(String.valueOf(magnitude), place, String.valueOf(time)));
+                earthquakes.add(new Earthquake(String.valueOf(magnitude), place, time));
             }
 
         } catch (JSONException e) {

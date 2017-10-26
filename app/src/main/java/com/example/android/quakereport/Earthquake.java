@@ -13,9 +13,9 @@ public class Earthquake {
     private String mLocation;
 
     // time when the earthquake took place
-    private String mTime;
+    private long mTime;
 
-    public Earthquake(String magnitude, String location, String time){
+    public Earthquake(String magnitude, String location, long time){
         mMagnitude = magnitude;
         mLocation = location;
         mTime = time;
@@ -41,7 +41,7 @@ public class Earthquake {
      * get the time when the earthquake took place
      * @return time when it took place
      */
-    public String getTime(){
+    public long getTime(){
         return mTime;
     }
 }

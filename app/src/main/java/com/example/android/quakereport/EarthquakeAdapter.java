@@ -11,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Steven on 25/10/2017.
@@ -48,11 +50,24 @@ public class EarthquakeAdapter extends ArrayAdapter<Earthquake> {
         // Get the lcoation from the earthquake and set it to the textview
         locationTextView.setText(currentEarthquake.getLocation());
 
-        // Find the TextView in the list_item.xml layout with the ID location_textview
+        // Find the TextViews in the list_item.xml layout with the IDs time_textview
+        // and date_textview
         TextView timeTextView = (TextView) listItemView.findViewById(R.id.time_textview);
-        // Get the lcoation from the earthquake and set it to the textview
-        timeTextView.setText(currentEarthquake.getTime());
+        TextView dateTextView = (TextView) listItemView.findViewById(R.id.date_textview);
 
+        // convert the unix timestamp to a Date instance
+        long time = currentEarthquake.getTime();
+        Date dateObject = new Date(time);
+
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("DD MMM, yyyy");
+        SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+        String dateToDisplay = dateFormatter.format(dateObject);
+        String timeToDisplay = timeFormatter.format(dateObject);
+
+
+        // Get the lcoation from the earthquake and set it to the textview
+        timeTextView.setText(timeToDisplay);
+        dateTextView.setText(dateToDisplay);
         // Return the whole list item layout (containing 3 TextViews)
         // so that it can be shown in the ListView
         return listItemView;
